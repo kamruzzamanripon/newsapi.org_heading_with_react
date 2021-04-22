@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component,createRef } from 'react'
 import {newsCategory} from '../news'
 
 class header extends Component {
     state ={
         searchTerm: ''
     }
+
+    searchRef = createRef()
 
     handleChange = e =>{
         this.setState({searchTerm: e.target.value})
@@ -13,6 +15,10 @@ class header extends Component {
         if(e.key === 'Enter'){
             this.props.search(this.state.searchTerm)
         }
+    }
+
+    componentDidMount(){
+        this.searchRef.current.focus()
     }
     render() {
         const { category, changeCategory } = this.props
@@ -23,6 +29,7 @@ class header extends Component {
                         Block Buster Headline
                     </h1>
                     <input 
+                        ref={this.searchRef}
                         type="text"
                         className='form-control'
                         placeholder='Type anything & press enter to Search'
@@ -61,5 +68,6 @@ class header extends Component {
         )
     }
 }
+
 
 export default header

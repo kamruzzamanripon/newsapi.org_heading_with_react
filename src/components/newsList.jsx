@@ -4,8 +4,8 @@ function getDateString(dataTimeStr){
     return new Date(dataTimeStr).toDateString()
 }
 
-const NewsItem = ({item}) => (
-    <div className='card mb-4'>
+const NewsItem = React.forwardRef(({item}, ref) => (
+    <div ref={(el)=> ref.push(el)} className='card mb-4'>
         {item.urlToImage && (
             <img 
                 className='card-img-top'
@@ -53,15 +53,15 @@ const NewsItem = ({item}) => (
 
         </div>
     </div>
-)
+))
 
-function newsList({news}) {
+const newsList = React.forwardRef(({news}, ref)=> {
     return (
         <div>
             {news && news.length === 0 && <h4>There is no News </h4>}
-            {news && news.map(item => <NewsItem key={item.title} item={item} />)}
+            {news && news.map(item => <NewsItem ref={ref} key={item.title} item={item} />)}
         </div>
     )
-}
+})
 
 export default newsList

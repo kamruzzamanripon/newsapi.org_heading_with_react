@@ -19,8 +19,13 @@ class App extends React.Component {
     isLoading: true
   }
 
-  
+  //React Reference
+  aboutResult = React.createRef()
+  //searchRef = React.createRef()
+  CbRef = null
+  itemRefList = []
 
+ 
   componentDidMount(){
     news.getNews()
         .then((data)=>{
@@ -30,7 +35,18 @@ class App extends React.Component {
           console.log(e)
           alert('Something Went wrong')
           this.setState({ isLoading: false })
-        })
+        });
+
+        //use Ref
+        //console.dir(this.aboutResult.current)
+        //this.searchRef.current.focus()
+        //console.dir(this.searchRef.current)
+        console.log(this.CbRef)
+        console.log(this.itemRefList)
+  }
+
+  goToTop = ()=>{
+    window.scroll(0, this.aboutResult.current.scrollTop)
   }
 
   next = () =>{
@@ -125,7 +141,7 @@ class App extends React.Component {
       currentPage,
       totalPage
     } = this.state.data
-
+     
     return (
       <div className="App">
         <div className="container">
@@ -134,10 +150,11 @@ class App extends React.Component {
               category= {category}
               changeCategory={this.changeCategory}
               search={this.search}
+              ref={this.searchRef}
             /> 
 
-            <div className='d-flex'>
-                <p className='text-black-50'>
+            <div ref={this.aboutResult} className='d-flex'>
+                <p ref={(el)=> this.CbRef = el} className='text-black-50'>
                     About {totalResults} results found
                 </p>
                 <p className='text-black-50 ml-auto'>
@@ -153,6 +170,7 @@ class App extends React.Component {
                 <div>
                     <NewsList
                       news={article}
+                      ref={this.itemRefList}
                     /> 
                   
                     <Pagination
@@ -169,7 +187,14 @@ class App extends React.Component {
 
             )}
 
-            
+           <div className='d-flex'>
+           <button
+              className='btn btn-secondary my-5 ml-auto'
+              onClick={this.goToTop}
+            >
+              Go to Top
+            </button>
+           </div>
 
             
 
