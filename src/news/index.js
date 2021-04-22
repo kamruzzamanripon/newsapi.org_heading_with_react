@@ -12,6 +12,7 @@ export const newsCategory = {
 
 const MAX_ITEM_PER_PAGE = 10;
 
+// news api url class
 export default class News{
     
     constructor(category){
